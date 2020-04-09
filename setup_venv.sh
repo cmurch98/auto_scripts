@@ -9,9 +9,9 @@ sudo apt update && sudo apt upgrade -y
 # Install Python3
 sudo apt install python3 -y
 # Install PIP
-sudo apt install python3-pip
+sudo apt install python3-pip -y
 # Install venv
-sudo apt install python3-venv
+sudo apt install python3-venv -y
 
 # Ask the user if they would like to create a venv
 echo "Would you like to create a venv now? [y/n]"

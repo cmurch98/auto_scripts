@@ -40,7 +40,12 @@ else
 	echo "Port remains unchanged"
 fi
 
-echo "Completed! Remember to copy across the putty key"
+echo "Copying in putty key..."
+
+# Pipe the conents of the public key file into the 
+cat /home/pi/auto_scripts/putty_key >> authorized_keys
+
+echo "Completed!"
 
 # Change back to the home directory and list its contents
 cd && ls -al

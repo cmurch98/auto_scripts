@@ -1,51 +1,54 @@
 #!/bin/bash
+echo -e "Welcome to setup_ssh.sh!\nThis script will setup SSH keys and modify some default ssh parameters."
 
-echo -e "Welcome to setup_ssh.sh!\nThis script will setup ssh keys and modify some default ssh parameters."
+# Define variables and constants
+passwordAuth="PasswordAuthentication No"
+pubkeyAuth="PubkeyAuthentication Yes"
+regex_int="^[0-9]+$"
+unset port
 
 # Navigate to the home directory and delete the existing .ssh directory
 cd && rm .ssh -rf
-# Make a new .ssh directory and set rwx permissions for the user
+# Make a new .ssh directory and set rwx permissions for the user (owner)
 mkdir .ssh && chmod 700 .ssh
-# Navigate to the new .ssh directory, create an empty authorized_keys file and assign rwx permissions for the user
+# Navigate to the new .ssh directory, create an empty authorized_keys file and assign rwx permissions for the user (owner)
 cd .ssh && touch authorized_keys && chmod 700 authorized_keys
 
-echo "Generating Public/Private Key Pair"
-
 # Generate an ssh key pair with no password authentication
+echo -n "Generating Public/Private Key Pair... "
 echo | ssh-keygen -P ''
+echo "Done!"
 
-# Ask the user for a port number
-echo "Which port would you like to enable for SSH?"
+# Error checking loop
+while ! [[ $port =~ $regex_int ]]
+do
+	# Ask the user for a port number and record the answer
+	read -p "Which port should be used for SSH connections: " port
 
-# Read the port specification from the user
-read port
+	# If the number is not an integer
+	if ! [[ $port =~ $re ]] || [ $port -ge 65536 ]
+	then
+		# Print that the port is invalid and unset the port variable
+		echo "Invalid Port No. Please try again"
+		unset port
+	fi
+done
 
-# If the port selected is not the default
-if [ $port -ne 22 ]
-then
+# Modify the port variable
+newPort="Port $port"
 
-	# Define a string for each setting
-	newPort="Port $port"
-	pubkeyAuth="PubkeyAuthentication Yes"
-	passwordAuth="PasswordAuthentication No"
+# Replace the relevant lines in the sshd_config
+echo "Replacing default SSH rules..."
+sudo sed -i "s/#Port 22/$newPort/" /etc/ssh/sshd_config
+sudo sed -i "s/#PubkeyAuthentication yes/$pubkeyAuth/" /etc/ssh/sshd_config
+sudo sed -i "s/#PasswordAuthentication yes/$passwordAuth/" /etc/ssh/sshd_config
+echo "Done!"
 
-	echo "Replacing default SSH rules"
-
-	# Replace the relevant lines in the sshd_config
-	sudo sed -i "s/#Port 22/$newPort/" /etc/ssh/sshd_config
-	sudo sed -i "s/#PubkeyAuthentication yes/$pubkeyAuth/" /etc/ssh/sshd_config
-	sudo sed -i "s/#PasswordAuthentication yes/$passwordAuth/" /etc/ssh/sshd_config
-
-else
-	echo "Port remains unchanged"
-fi
-
+# Direct the stdout of the public key file into the authorized_keys file 
 echo "Copying in putty key..."
-
-# Pipe the conents of the public key file into the 
 cat /home/pi/auto_scripts/putty_key >> authorized_keys
+echo "Done!"
 
-echo "Completed!"
-
+echo -e "----------------------------------------\nSSH setup complete!\n"
 # Change back to the home directory and list its contents
 cd && ls -al

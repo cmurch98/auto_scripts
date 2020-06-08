@@ -1,6 +1,8 @@
 #!/bin/bash
-
 echo -e "Welcome to setup_venv.sh\nThis script will install and configure the Python3 venv package."
+
+# Define variables
+regex_yes="[Yy]"
 
 # Navigate to the home directory for no particular reason
 cd
@@ -19,7 +21,7 @@ echo "Would you like to create a venv now? [y/n]"
 read response
 
 # String compare
-if [ $response = "y" ]
+if [[ $response =~ regex_yes ]]
 then
 	# Query venv name
 	echo "What would you like to name the venv?"
@@ -28,9 +30,10 @@ then
 	# Create the venv
 	python3 -m venv $venv_title
 
-	echo "Enter the venv using the following command 'source ./$venv_title/bin/activate'"
+	echo -e "To enter the venv, use the following command:\n\tsource ./$venv_title/bin/activate"
 
 fi
 
-echo "In a venv, install packages using 'python -m pip install PACKAGE'"
-echo "Thanks for using setup_venv.sh"
+echo -e "To create another venv, deactivate any environments in use and call the following command:\n\tpython3 -m venv VENV"
+echo -e "To install python packages in the venv, use the following command:\n\tpython -m pip install PACKAGE"
+echo -e "----------------------------------------\nVENV seup "

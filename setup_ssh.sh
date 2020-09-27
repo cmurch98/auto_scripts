@@ -49,6 +49,10 @@ echo "Copying in putty key..."
 cat /home/pi/auto_scripts/putty_key >> authorized_keys
 echo "Done!"
 
+echo "Restarting the SSH service"
+sudo systemctl restart ssh
+echo "Done!"
+
 echo -e "----------------------------------------\nSSH setup complete!\n"
 # Change back to the home directory and list its contents
 cd && ls -al

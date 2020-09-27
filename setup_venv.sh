@@ -40,4 +40,4 @@ fi
 
 echo -e "\nTo create another venv, deactivate any environments in use and call the following command:\n\n\tpython3 -m venv VENV\n" | fold -s
 echo -e "To install python packages in the venv, use the following command:\n\n\tpython -m pip install PACKAGE\n" | fold -s
-echo -e "Thanks for using setup_venv.sh"
+echo -e "----------------------------------------\nsetup_venv.sh complete!\n"

@@ -1,5 +1,5 @@
 #!/bin/bash
-echo -e "Welcome to setup_ssh.sh!\nThis script will setup SSH keys and modify some default ssh parameters."
+echo -e "Welcome to setup_ssh.sh!\nThis script will setup SSH keys and modify some default ssh parameters." | fold -s
 
 # Define variables and constants
 passwordAuth="PasswordAuthentication No"
@@ -53,6 +53,6 @@ echo "Restarting the SSH service"
 sudo systemctl restart ssh
 echo "Done!"
 
-echo -e "----------------------------------------\nSSH setup complete!\n"
+echo -e "----------------------------------------\nsetup_ssh.sh complete!\n"
 # Change back to the home directory and list its contents
 cd && ls -al

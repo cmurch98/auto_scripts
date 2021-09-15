@@ -10,4 +10,8 @@ echo "Updating bash history duplicates..."
 sed -i "s/HISTCONTROL=ignoreboth/HISTCONTROL=erasedups/" /home/pi/.bashrc
 echo "Done!"
 
+echo "Re-sourcing the .bashrc file..."
+source /home/pi/.bashrc
+echo "Done!"
+
 echo -e "----------------------------------------\nsetup_bashrc.sh complete!\n"

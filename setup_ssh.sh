@@ -46,7 +46,7 @@ echo "Done!"
 
 # Direct the stdout of the public key file into the authorized_keys file 
 echo "Copying in putty key..."
-cat /home/pi/auto_scripts/putty_key >> authorized_keys
+cat /home/pi/auto_scripts/authorised_key >> authorized_keys
 echo "Done!"
 
 echo "Restarting the SSH service"
